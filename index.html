@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Página de ejemplo — Para Arianna</title>
+
+  <style>
+    :root{
+      --bg:#fff7fb;
+      --card:#ffffff;
+      --accent:#ff6b9d;
+      --accent-2:#c44569;
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.8);
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #fff7fb 0%, #fff 70%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      scroll-behavior: smooth;
+    }
+
+    /* Header */
+    header#header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 20px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+      backdrop-filter: blur(6px);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      z-index:1000;
+      transform:translateY(0);
+      transition: transform 0.28s ease;
+    }
+    header .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      color:var(--accent-2);
+    }
+    nav a{
+      color:#333;
+      text-decoration:none;
+      margin-left:16px;
+      font-weight:600;
+    }
+    nav a:hover{ color:var(--accent); }
+
+    main{
+      padding-top:88px;
+      max-width:1100px;
+      margin:0 auto;
+      padding-left:20px;
+      padding-right:20px;
+      padding-bottom:80px;
+    }
+
+    section{
+      margin:48px 0;
+    }
+
+    h1,h2{
+      margin:0 0 12px 0;
+    }
+    p.lead{
+      color:var(--muted);
+      margin:0 0 20px 0;
+    }
+
+    /* Grid and cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap:20px;
+      align-items:start;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius:12px;
+      padding:16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      transform-origin:center;
+      opacity:0; /* initial, reveals with JS animation */
+      will-change: transform, opacity;
+      min-height:120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      flex-direction:column;
+    }
+
+    .flower-card{
+      border: 2px dashed rgba(196,69,105,0.12);
+    }
+
+    .card h3{
+      margin:6px 0 0 0;
+      font-size:1rem;
+      color:#333;
+    }
+
+    .card p{ color:var(--muted); margin:6px 0 0 0; font-size:0.9rem; }
+
+    /* Animations (centralized in CSS) */
+    @keyframes fadeInUp {
+      from { opacity:0; transform: translateY(30px); }
+      to { opacity:1; transform: translateY(0); }
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(720deg); opacity:0; }
+    }
+
+    @keyframes popIn {
+      0% { transform: translate(-50%,-50%) scale(0); opacity:0; }
+      50% { transform: translate(-50%,-50%) scale(1.06); }
+      100% { transform: translate(-50%,-50%) scale(1); opacity:1; }
+    }
+
+    @keyframes fadeOut {
+      to { opacity:0; transform: translate(-50%,-50%) scale(0.9); }
+    }
+
+    /* When the observer toggles 'animate' */
+    .card.animate{
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    /* Small utility */
+    .center {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    footer{
+      margin-top:40px;
+      text-align:center;
+      color:var(--muted);
+      font-size:0.9rem;
+    }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+    }
+
+    /* Make cards keyboard-focusable */
+    .card:focus { outline: 3px solid rgba(196,69,105,0.15); box-shadow: 0 8px 30px rgba(196,69,105,0.06); }
+
+    /* Simple responsive header links collapse (very small) */
+    @media (max-width:420px){
+      nav a{ margin-left:10px; font-size:14px; }
+      header{ padding:0 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header id="header" role="banner" aria-label="Barra de navegación">
+    <div class="brand" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 1px 3px rgba(0,0,0,0.08));">
+        <circle cx="12" cy="12" r="10" fill="#ff6b9d"></circle>
+        <path d="M8 12c1.333-2 4-2 6 0" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Página para Arianna
+    </div>
+
+    <nav role="navigation" aria-label="Navegación principal">
+      <a href="#home">Inicio</a>
+      <a href="#flowers">Lirios</a>
+      <a href="#volleyball">Volleyball</a>
+      <a href="#recipes">Recetas</a>
+      <a href="#anime">Anime</a>
+      <a href="#kdrama">K-Drama</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" aria-labelledby="home-title">
+      <h1 id="home-title">Una página creada con amor</h1>
+      <p class="lead">Bienvenida — esta página incluye animaciones, confeti de corazones, y una sorpresa si haces clic en los 4 lirios.</p>
+    </section>
+
+    <section id="flowers" aria-labelledby="flowers-title">
+      <h2 id="flowers-title">Lirios</h2>
+      <p class="lead">Haz clic en los cuatro lirios para descubrir un mensaje especial 💕</p>
+
+      <div class="grid">
+        <button class="card flower-card" aria-pressed="false" tabindex="0">
+          <div style="font-size:36px;">🌸</div>
+          <h3>Lirio 1</h3>
+          <p>Un toque de ternura</p>
+        </button>
+
+        <button class="card flower-card" aria-pressed="false" tabindex="0">
+          <div style="font-size:36px;">🌸</div>
+          <h3>Lirio 2</h3>
+          <p>Pétalos que susurran</p>
+        </button>
+
+        <button class="card flower-card" aria-pressed="false" tabindex="0">
+          <div style="font-size:36px;">🌸</div>
+          <h3>Lirio 3</h3>
+          <p>Una promesa</p>
+        </button>
+
+        <button class="card flower-card" aria-pressed="false" tabindex="0">
+          <div style="font-size:36px;">🌸</div>
+          <h3>Lirio 4</h3>
+          <p>Siempre contigo</p>
+        </button>
+      </div>
+    </section>
+
+    <section id="volleyball" aria-labelledby="vb-title">
+      <h2 id="vb-title">Volleyball</h2>
+      <p class="lead">Tarjetas de volleyball con pequeñas descripciones.</p>
+
+      <div class="grid">
+        <article class="card volleyball-card" tabindex="0">
+          <div style="font-size:40px;">🏐</div>
+          <h3>Partido 1</h3>
+          <p>Recuerdos de la cancha</p>
+        </article>
+
+        <article class="card volleyball-card" tabindex="0">
+          <div style="font-size:40px;">🏐</div>
+          <h3>Partido 2</h3>
+          <p>Amistad y salto</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="recipes" aria-labelledby="recipes-title">
+      <h2 id="recipes-title">Recetas</h2>
+      <p class="lead">Platos favoritos y recetas fáciles.</p>
+
+      <div class="grid">
+        <article class="card recipe-card" tabindex="0">
+          <div style="font-size:36px;">🍰</div>
+          <h3>Pastel</h3>
+          <p>Dulce y esponjoso</p>
+        </article>
+
+        <article class="card recipe-card" tabindex="0">
+          <div style="font-size:36px;">🍝</div>
+          <h3>Pasta</h3>
+          <p>Salsa especial</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="anime" aria-labelledby="anime-title">
+      <h2 id="anime-title">Anime</h2>
+      <p class="lead">Series preferidas y momentos épicos.</p>
+
+      <div class="grid">
+        <article class="card anime-card" tabindex="0">
+          <div style="font-size:36px;">✨</div>
+          <h3>Serie A</h3>
+          <p>Momentos inolvidables</p>
+        </article>
+
+        <article class="card anime-card" tabindex="0">
+          <div style="font-size:36px;">🌙</div>
+          <h3>Serie B</h3>
+          <p>Historias que encantan</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="kdrama" aria-labelledby="kdrama-title">
+      <h2 id="kdrama-title">K-Drama</h2>
+      <p class="lead">Emociones y romance.</p>
+
+      <div class="grid">
+        <article class="card kdrama-card" tabindex="0">
+          <div style="font-size:36px;">🎬</div>
+          <h3>Título 1</h3>
+          <p>Escenas memorables</p>
+        </article>
+
+        <article class="card kdrama-card" tabindex="0">
+          <div style="font-size:36px;">🎭</div>
+          <h3>Título 2</h3>
+          <p>Actuaciones conmovedoras</p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <p>Hecho con ❤️</p>
+    </footer>
+  </main>
+
+  <script>
+    // ===== OCULTAR HEADER AL HACER SCROLL =====
+    (function(){
+      let lastScrollTop = 0;
+      const header = document.getElementById('header');
+      if (!header) return;
+
+      window.addEventListener('scroll', () => {
+        // Guardar rendimiento — solamente leer lo necesario
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        // Evitar micro-flutters en scrolls muy pequeños
+        if (Math.abs(scrollTop - lastScrollTop) < 8) {
+          lastScrollTop = scrollTop;
+          return;
+        }
+
+        if (scrollTop > lastScrollTop && scrollTop > 60) {
+          // scroll hacia abajo -> ocultar
+          header.style.transform = 'translateY(-100%)';
+        } else {
+          header.style.transform = 'translateY(0)';
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      }, { passive: true });
+    })();
+
+    // ===== SCROLL SUAVE EN NAVEGACIÓN (compat con botones y enlaces internos) =====
+    (function(){
+      // Usar delegación para capturar clicks en enlaces internos
+      document.addEventListener('click', function(e){
+        const anchor = e.target.closest('a[href^="#"]');
+        if (!anchor) return;
+        const href = anchor.getAttribute('href');
+        if (!href || href === '#' ) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+
+        // Ajustar el scroll si el header está fijo (opcional): se usa block:'start' y un pequeño offset
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+          target.scrollIntoView(true);
+          return;
+        }
+
+        // smooth scroll
+        target.scrollIntoView({ behavior:'smooth', block:'start' });
+      }, false);
+    })();
+
+    // ===== ANIMACIÓN DE APARICIÓN AL SCROLL =====
+    (function(){
+      const observerOptions = {
+        threshold: 0.12,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            // una vez animado, dejar de observar para rendimiento
+            obs.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Observar todas las tarjetas
+      const selector = '.flower-card, .volleyball-card, .recipe-card, .anime-card, .kdrama-card, .card';
+      document.querySelectorAll(selector).forEach(card => {
+        // Si prefieren reducir movimiento, revelar sin animación
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          card.style.opacity = '1';
+        } else {
+          card.style.opacity = '0';
+          observer.observe(card);
+        }
+      });
+    })();
+
+    // ===== CONFETI DE CORAZONES AL CARGAR =====
+    window.addEventListener('load', () => {
+      createHeartConfetti();
+    });
+
+    function createHeartConfetti() {
+      try {
+        const container = document.createElement('div');
+        container.setAttribute('aria-hidden','true');
+        container.style.position = 'fixed';
+        container.style.top = '0';
+        container.style.left = '0';
+        container.style.width = '100%';
+        container.style.height = '100%';
+        container.style.pointerEvents = 'none';
+        container.style.zIndex = '999';
+        document.body.appendChild(container);
+
+        const count = 30;
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.textContent = '❤️';
+            heart.style.position = 'fixed';
+            // Mejor usar transform para colocar después y mantener fluidez
+            heart.style.left = (Math.random() * 100) + '%';
+            heart.style.top = '-10px';
+            const size = (Math.random() * 20 + 20);
+            heart.style.fontSize = size + 'px';
+            heart.style.opacity = '1';
+            heart.style.pointerEvents = 'none';
+
+            // duración (para animación y para eliminar)
+            const duration = (Math.random() * 3 + 4); // s
+            heart.style.animation = `fall ${duration}s linear forwards`;
+            heart.style.willChange = 'transform, opacity';
+            container.appendChild(heart);
+
+            // Remover el elemento después de la animación completa + pequeño margen
+            setTimeout(() => {
+              heart.remove();
+              // Si el contenedor está vacío, removerlo
+              if (container.children.length === 0) {
+                container.remove();
+              }
+            }, (duration + 0.12) * 1000);
+          }, i * 100);
+        }
+      } catch (err) {
+        // No bloquear la carga si algo falla
+        console.warn('No se pudo crear el confeti de corazones:', err);
+      }
+    }
+
+    // ===== MENSAJE OCULTO AL HACER CLIC EN LOS 4 LIRIOS =====
+    (function(){
+      let flowerClicks = 0;
+      // seleccionar solo botones .flower-card (en este HTML son botones)
+      document.querySelectorAll('.flower-card').forEach(card => {
+        card.addEventListener('click', () => {
+          flowerClicks++;
+          // Provide small visual feedback toggling aria-pressed briefly
+          card.setAttribute('aria-pressed', 'true');
+          setTimeout(()=> card.setAttribute('aria-pressed','false'), 250);
+
+          if (flowerClicks === 4) {
+            showLoveMessage();
+            flowerClicks = 0;
+          }
+        });
+
+        // Support keyboard activation (Enter / Space)
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+
+      // Reset count if many seconds pass without finishing the sequence
+      let resetTimer = null;
+      document.addEventListener('click', ()=> {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(()=> { flowerClicks = 0; }, 3500);
+      });
+    })();
+
+    function showLoveMessage() {
+      const message = document.createElement('div');
+      message.setAttribute('role','dialog');
+      message.setAttribute('aria-live','polite');
+      message.style.position = 'fixed';
+      message.style.top = '50%';
+      message.style.left = '50%';
+      message.style.transform = 'translate(-50%, -50%)';
+      message.style.background = 'linear-gradient(135deg, #ff6b9d, #c44569)';
+      message.style.color = 'white';
+      message.style.padding = '30px 50px';
+      message.style.borderRadius = '10px';
+      message.style.fontSize = '1.2rem';
+      message.style.textAlign = 'center';
+      message.style.boxShadow = '0 10px 40px rgba(0,0,0,0.3)';
+      message.style.zIndex = '10000';
+      message.style.animation = 'popIn 0.45s ease-out';
+      message.textContent = '¡Te amo Arianna! 💕';
+
+      document.body.appendChild(message);
+
+      // Eliminar después de 2.5 segundos con fade out
+      setTimeout(() => {
+        message.style.animation = 'fadeOut 0.45s ease-out forwards';
+        setTimeout(() => message.remove(), 500);
+      }, 2500);
+    }
+
+    // ===== MENSAJE DE AMOR EN LA CONSOLA =====
+    (function(){
+      try {
+        console.log('%c❤️ Te amo Arianna ❤️', 'font-size: 28px; color: #ff6b9d; font-weight: bold; text-shadow: 2px 2px 6px rgba(0,0,0,0.15);');
+        console.log('%cEsta página fue creada con todo mi amor para ti 💕', 'font-size: 14px; color: #c44569;');
+      } catch(e) { /* ignore on older consoles */ }
+    })();
+  </script>
+</body>
+</html>
